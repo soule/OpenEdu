@@ -15,7 +15,7 @@
     <% @questions.each do |question| %>
       <tr>
         <td><%= question.description %></td>
-        <% if teacher_logged_in? %>
+        <% if teacher_signed_in? %>
           <td><%= question.correct_answer %></td>
         <% else %>
           <%# if Submissions.find(question: question, student_id: current_student) %>
