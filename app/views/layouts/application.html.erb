@@ -22,7 +22,7 @@
         <a class="nav-link" href="#">Classrooms</a>
       </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Sign Out</a>
+          <%= link_to "Sign out", teacher_signed_in? ? destroy_teacher_session_path : destroy_student_session_path, class: "nav-link", method: :delete %>
         </li>
       <% else %>
         <li class="nav-item">
@@ -33,7 +33,13 @@
         </li>
       <% end %>
     </ul>
+    <span class="navbar-text">
+      <%= teacher_signed_in? ? current_teacher.full_name : 
+          student_signed_in? ? current_student.full_name : '' %>
+    </span>
   </div>
+
+
 </nav>
 
     

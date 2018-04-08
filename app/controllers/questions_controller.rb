@@ -34,8 +34,8 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       if @question.save
-        format.html { redirect_to @assignment, notice: 'question was successfully created.' }
-        format.json { render :show, status: :created, location: @assignment }
+        format.html { redirect_to classroom_assignment_questions_path(@assignment.classroom, @assignment), notice: 'question was successfully created.' }
+        format.json { render :show, status: :created, location: classroom_assignment_path(@assignment) }
       else
         format.html { render :new }
         format.json { render json: @question.errors, status: :unprocessable_entity }
@@ -71,11 +71,11 @@ class QuestionsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_question
-      @question = question.find(params[:id])
+      @question = Question.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def question_params
-      params.require(:question).permit(:name, :description, :total_points)
+      params.require(:question).permit(:description, :correct_answer)
     end
 end

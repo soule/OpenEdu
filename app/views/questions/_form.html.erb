@@ -12,9 +12,19 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :assignment_id %>
-    <%= form.text_field :assignment_id, id: :question_assignment_id %>
+    <%= form.label :description, "Description (with answer options)" %>
+    <%= form.text_area :description %>
   </div>
+
+  <div class="field">
+    <%= form.label :correct_answer %>
+
+     A <%= form.radio_button :correct_answer, "A" %>
+    B <%= form.radio_button :correct_answer, "B" %>
+    C <%= form.radio_button :correct_answer, "C" %>
+    D <%= form.radio_button :correct_answer, "D" %>
+  </div>
+
 
   <div class="actions">
     <%= form.submit %>

@@ -5,7 +5,8 @@
 <table>
   <thead>
     <tr>
-      <th>Assignment</th>
+      <th>Description</th>
+      <th>Answer</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -13,10 +14,11 @@
   <tbody>
     <% @questions.each do |question| %>
       <tr>
-        <td><%= question.assignment %></td>
-        <td><%= link_to 'Show', question %></td>
-        <td><%= link_to 'Edit', edit_question_path(question) %></td>
-        <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= question.description %></td>
+        <td><%= question.correct_answer %></td>
+        <td><%#= link_to 'Show', classroom_assignment_question_path(question) %></td>
+        <td><%#= link_to 'Edit', edit_question_path(question) %></td>
+        <td><%#= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

@@ -7,7 +7,7 @@
     <tr>
       <th>Name</th>
       <th>Description</th>
-      <th>Total points</th>
+      <th>Questions</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -17,6 +17,7 @@
       <tr>
         <td><%= link_to assignment.name, classroom_assignment_path(assignment) %></td>
         <td><%= assignment.description %></td>
+        <td><%= link_to "Questions", classroom_assignment_questions_path(assignment.classroom,assignment) %></td>
       </tr>
     <% end %>
   </tbody>
