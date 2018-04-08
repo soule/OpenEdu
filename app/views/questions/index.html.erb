@@ -15,7 +15,11 @@
     <% @questions.each do |question| %>
       <tr>
         <td><%= question.description %></td>
-        <td><%= question.correct_answer %></td>
+        <% if teacher_logged_in? %>
+          <td><%= question.correct_answer %></td>
+        <% else %>
+          <%# if Submissions.find(question: question, student_id: current_student) %>
+        <% end %>
         <td><%#= link_to 'Show', classroom_assignment_question_path(question) %></td>
         <td><%#= link_to 'Edit', edit_question_path(question) %></td>
         <td><%#= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
