@@ -11,6 +11,11 @@ class ClassroomsController < ApplicationController
     @classrooms = Classroom.all
   end
 
+  def officehours
+    @classroom = Classroom.find(params[:classroom_id])
+  end
+
+
   # GET /classrooms/1
   # GET /classrooms/1.json
   def show

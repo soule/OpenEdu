@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :questions
   devise_for :teachers#, controllers: { registrations: 'teachers/registrations'}
   devise_for :students, controllers: { registrations: 'students/registrations' }
   resources :tasks
@@ -8,6 +9,7 @@ Rails.application.routes.draw do
 	resources :enrollments, only: [:create, :update, :destroy]
 
   resources :classrooms do
+    get 'officehours'
   	resources :assignments  	
   end
 
