@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @classroom.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @classroom.description %>
+</p>
+
+<p>
+  <strong>Teacher:</strong>
+  <%= @classroom.teacher.full_name %>
+</p>
+
+
+
+<% if (teacher_signed_in? || student_signed_in?) %>
+	<%= render "assignments/index", assignments: @assignments%>
+<% end %>
+
+<% if teacher_signed_in? %>
+<%= link_to 'New Assignment', new_classroom_assignment_path(classroom_id: @classroom) %>
+<br>
+
+<%= link_to 'Edit classroom', edit_classroom_path(@classroom) %>
+<% end %>

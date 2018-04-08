@@ -1,0 +1,9 @@
+<% if !teacher_signed_in? 
+		redirect_to root_path
+	end %>
+
+<h1>New Classroom</h1>
+
+<%= render 'form', classroom: @classroom %>
+
+<%= link_to 'Back', classrooms_path %>

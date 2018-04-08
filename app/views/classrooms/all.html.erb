@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+
+<% if student_signed_in? %>
+
+<h1>All Classrooms</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Teacher</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @classrooms.each do |classroom| %>
+      <tr>
+        <td><%= link_to classroom.name, classroom %></td>
+        <td><%= classroom.description %></td>
+        <td><%= classroom.teacher.full_name %></td>
+        <td><%= link_to 'Join', enrollments_path(classroom_id: classroom.id), method: :post %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<% end %>

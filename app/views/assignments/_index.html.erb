@@ -1,0 +1,26 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Assignments</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Total points</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @assignments.each do |assignment| %>
+      <tr>
+        <td><%= link_to assignment.name, classroom_assignment_path(assignment) %></td>
+        <td><%= assignment.description %></td>
+        <td><%= assignment.total_points %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
