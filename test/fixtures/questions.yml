@@ -2,10 +2,6 @@
 
 one:
   assignment: one
-  name: MyString
-  correct_answer: MyString
 
 two:
   assignment: two
-  name: MyString
-  correct_answer: MyString

@@ -1,23 +1,19 @@
+<%= javascript_include_tag "RTCMultiConnection.js" %>
+<%= javascript_include_tag "socket_io.js" %>
+<%= javascript_include_tag "getScreenId.js" %>
 
 
-        <section class="experiment">
-            <div class="make-center">
-                <input type="text" id="broadcast-id" placeholder="broadcast-id" value="room-xyz">
-                <button id="open-or-join">Open or Join Broadcast</button>
+<div class="row">
+    <div class = "col-md-6">
+    <h1> Office Hours </h1>
+    <p id="status"></p>
 
-                <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
-            </div>
+      
+            <button id="open-or-join">Open or Join Broadcast</button>
+            <video id="video-preview" controls loop
+                width=100% height=100%></video>
 
-            <video id="video-preview" controls loop></video>
         </section>
-
-        <script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
-        <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
-
-        <!-- capture screen from any HTTPs domain! -->
-        <script src="https://cdn.webrtc-experiment.com:443/getScreenId.js"></script>
-
-        <!-- <script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script> -->
         <script>
             // recording is disabled because it is resulting for browser-crash
             // if you enable below line, please also uncomment above "RecordRTC.js"
@@ -32,16 +28,19 @@
             // we don't need to keep room-opened
             // scalable-broadcast.js will handle stuff itself.
             connection.autoCloseEntireSession = true;
-            // by default, socket.io server is assumed to be deployed on your own URL
-            //connection.socketURL = '/';
-            // comment-out below line if you do not have your own socket.io server
-            connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+            
+            // Socket URL stuff
+            connection.socketURL = 
+             '<%= Rails.env.development? ? 'http://localhost:9001/' 
+             : 'https://rtcmulticonnection.herokuapp.com:443/' %>';
             connection.socketMessageEvent = 'scalable-screen-broadcast-demo';
+            
             // user need to connect server, so that others can reach him.
             connection.connectSocket(function(socket) {
                 socket.on('logs', function(log) {
-                    document.querySelector('h1').innerHTML = log.replace(/</g, '----').replace(/>/g, '___').replace(/----/g, '(<span style="color:red;">').replace(/___/g, '</span>)');
+                    // document.querySelector('h1').innerHTML = log.replace(/</g, '----').replace(/>/g, '___').replace(/----/g, '(<span style="color:red;">').replace(/___/g, '</span>)');
                 });
+
                 // this event is emitted when a broadcast is already created.
                 socket.on('join-broadcaster', function(hintsToJoinBroadcast) {
                     console.log('join-broadcaster', hintsToJoinBroadcast);
@@ -90,10 +89,12 @@
                     });
                 });
             });
+
             window.onbeforeunload = function() {
                 // Firefox is ugly.
                 document.getElementById('open-or-join').disabled = false;
             };
+
             var videoPreview = document.getElementById('video-preview');
             connection.onstream = function(event) {
                 if(connection.isInitiator && event.type !== 'local') {
@@ -157,7 +158,8 @@
             // if broadcast is available, simply join it. i.e. "join-broadcaster" event should be emitted.
             // if broadcast is absent, simply create it. i.e. "start-broadcasting" event should be fired.
             document.getElementById('open-or-join').onclick = function() {
-                var broadcastId = document.getElementById('broadcast-id').value;
+                var broadcastId = "openeduclassroom" + <%= @classroom.id %>
+                // TODO this seems to be where broadcastid is created
                 if (broadcastId.replace(/^\s+|\s+$/g, '').length <= 0) {
                     alert('Please enter broadcast-id');
                     document.getElementById('broadcast-id').focus();
@@ -171,6 +173,11 @@
                 var socket = connection.getSocket();
                 socket.emit('check-broadcast-presence', broadcastId, function(isBroadcastExists) {
                     if(!isBroadcastExists) {
+                        if (<%= !teacher_signed_in? %>) {
+                         console.log("have to be teacher");
+                         document.getElementById('open-or-join').disabled = false;
+                         return; 
+                        }
                         // the first person (i.e. real-broadcaster) MUST set his user-id
                         connection.userid = broadcastId;
                     }
@@ -262,6 +269,10 @@
                 roomURLsDiv.innerHTML = html;
                 roomURLsDiv.style.display = 'block';
             }
+
+
+            //The actual beginning of the code TODO
+
             (function() {
                 var params = {},
                     r = /([^&=]+)=?([^&]*)/g;
@@ -273,16 +284,11 @@
                     params[d(match[1])] = d(match[2]);
                 window.params = params;
             })();
-            var broadcastId = '';
-            if (localStorage.getItem(connection.socketMessageEvent)) {
-                broadcastId = localStorage.getItem(connection.socketMessageEvent);
-            } else {
-                broadcastId = connection.token();
-            }
-            document.getElementById('broadcast-id').value = broadcastId;
-            document.getElementById('broadcast-id').onkeyup = function() {
-                localStorage.setItem(connection.socketMessageEvent, this.value);
-            };
+
+
+            broadcastId = "openeduclassroom" + <%= @classroom.id %>
+
+            
             var hashString = location.hash.replace('#', '');
             if(hashString.length && hashString.indexOf('comment-') == 0) {
               hashString = '';
@@ -308,5 +314,11 @@
             }
         </script>
 
+    </div>
+    <div class="col-md-6">
 
-       <div id="tlkio" data-channel="OpenEdu<%= @classroom.id %>" style="width:100%;height:400px;"></div><script async src="http://tlk.io/embed.js" type="text/javascript"></script>
+<!-- <div id="tlkio" data-channel="OpenEdu<%= @classroom.id %>" style="width:100%;height:400px;"></div><script async src="http://tlk.io/embed.js" type="text/javascript"></script> -->
+</div>
+
+</div>
+

@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :questions
   devise_for :teachers#, controllers: { registrations: 'teachers/registrations'}
   devise_for :students, controllers: { registrations: 'students/registrations' }
   resources :tasks
@@ -10,7 +9,9 @@ Rails.application.routes.draw do
 
   resources :classrooms do
     get 'officehours'
-  	resources :assignments  	
+  	resources :assignments  do
+      resources :questions
+    end
   end
 
   root :to => 'classrooms#index'

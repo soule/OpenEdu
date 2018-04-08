@@ -4,7 +4,8 @@ class QuestionsController < ApplicationController
   # GET /questions
   # GET /questions.json
   def index
-    @questions = Question.all
+    @assignment = Assignment.find(params[:assignment_id])
+    @questions = @assignment.questions
   end
 
   # GET /questions/1
@@ -14,7 +15,10 @@ class QuestionsController < ApplicationController
 
   # GET /questions/new
   def new
-    @question = Question.new
+    @assignment = Assignment.find(params[:assignment_id])
+    @classroom = @assignment.classroom
+
+    @question = @assignment.questions.build
   end
 
   # GET /questions/1/edit
@@ -24,12 +28,14 @@ class QuestionsController < ApplicationController
   # POST /questions
   # POST /questions.json
   def create
-    @question = Question.new(question_params)
+    @assignment = Assignment.find(params[:assignment_id])
+
+    @question = @assignment.questions.build(question_params)
 
     respond_to do |format|
       if @question.save
-        format.html { redirect_to @question, notice: 'Question was successfully created.' }
-        format.json { render :show, status: :created, location: @question }
+        format.html { redirect_to @assignment, notice: 'question was successfully created.' }
+        format.json { render :show, status: :created, location: @assignment }
       else
         format.html { render :new }
         format.json { render json: @question.errors, status: :unprocessable_entity }
@@ -40,9 +46,10 @@ class QuestionsController < ApplicationController
   # PATCH/PUT /questions/1
   # PATCH/PUT /questions/1.json
   def update
+    #TODO: Doesnt work
     respond_to do |format|
       if @question.update(question_params)
-        format.html { redirect_to @question, notice: 'Question was successfully updated.' }
+        format.html { redirect_to @question, notice: 'question was successfully updated.' }
         format.json { render :show, status: :ok, location: @question }
       else
         format.html { render :edit }
@@ -56,7 +63,7 @@ class QuestionsController < ApplicationController
   def destroy
     @question.destroy
     respond_to do |format|
-      format.html { redirect_to questions_url, notice: 'Question was successfully destroyed.' }
+      format.html { redirect_to questions_url, notice: 'question was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -64,11 +71,11 @@ class QuestionsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_question
-      @question = Question.find(params[:id])
+      @question = question.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def question_params
-      params.require(:question).permit(:assignment_id, :name, :correct_answer)
+      params.require(:question).permit(:name, :description, :total_points)
     end
 end
