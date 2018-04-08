@@ -36,6 +36,11 @@
 <br>
 
 <% else %>
-<%= link_to "teacher login", new_teacher_session_path %>
-<%= link_to "student login", new_student_session_path %>
+<div class="jumbotron">
+          <h1 class="display-3">Welcome to OpenEDU!</h1>
+          <p>OpenEDU allows you to teach or enroll in courses in a variety of disciplines.</p><br>
+          <%= link_to "Teacher Sign Up", new_teacher_registration_path, class: "btn btn-info" %> <br><br>
+          <%= link_to "Student Sign Up", new_student_registration_path, class: "btn btn-info" %>
+        </div>
+
 <% end %>
