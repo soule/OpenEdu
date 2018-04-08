@@ -9,9 +9,10 @@ end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
 # Use twitter-bootstrap-rails
-gem 'therubyracer'
-gem 'less-rails'
-gem 'twitter-bootstrap-rails'
+#gem 'therubyracer'
+#gem 'less-rails'
+#gem 'twitter-bootstrap-rails'
+gem 'bootstrap', '~> 4.0.0'
 gem 'jquery-rails'
 # Use mysql as the database for Active Record
 gem 'mysql2', '>= 0.3.18', '< 0.5'
