@@ -8,6 +8,9 @@
       <th scope="col">Name</th>
       <th scope="col">Description</th>
       <th scope="col">Questions</th>
+      <% if student_signed_in? %>
+        <th scope="col">Grade</th>
+      <% end %>
     </tr>
   </thead>
 
@@ -17,6 +20,9 @@
         <td><%= assignment.name %></td>
         <td><%= assignment.description %></td>
         <td><%= link_to "Questions", classroom_assignment_questions_path(assignment.classroom,assignment) %></td>
+        <% if student_signed_in? %>
+          <td> <%= assignment.grade(current_student) %> </td>
+      <% end %>
       </tr>
     <% end %>
   </tbody>
