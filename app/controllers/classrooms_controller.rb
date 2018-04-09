@@ -15,6 +15,8 @@ class ClassroomsController < ApplicationController
     @classroom = Classroom.find(params[:classroom_id])
   end
 
+  def forum
+  end
 
   # GET /classrooms/1
   # GET /classrooms/1.json
