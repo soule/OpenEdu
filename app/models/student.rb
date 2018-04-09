@@ -6,6 +6,7 @@ class Student < ApplicationRecord
 
      has_many :enrollments
   has_many :classrooms, :through => :enrollments
+  has_many :submissions
 
   def full_name
   	(first_name.nil? || last_name.nil?) ? "" : first_name + " " + last_name

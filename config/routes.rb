@@ -10,7 +10,9 @@ Rails.application.routes.draw do
   resources :classrooms do
     get 'officehours'
   	resources :assignments  do
-      resources :questions
+      resources :questions do
+      resources :submissions
+      end
     end
   end
 

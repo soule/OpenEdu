@@ -3,15 +3,13 @@
 <%= javascript_include_tag "getScreenId.js" %>
 
 
-<div class="row">
-    <div class = "col-md-6">
     <h1> Office Hours </h1>
     <p id="status"></p>
 
       
-            <button id="open-or-join" class="button btn-primary">Open or Join Broadcast</button>
+            <button id="open-or-join" class="button btn-primary">Create or Join Office Hours</button>
             <video id="video-preview" controls loop
-                width=100% height=100%></video>
+                width=100% height=600px></video>
 
         </section>
         <script>
@@ -174,6 +172,8 @@
                 socket.emit('check-broadcast-presence', broadcastId, function(isBroadcastExists) {
                     if(!isBroadcastExists) {
                         if (<%= !teacher_signed_in? %>) {
+                        //document.getElementById('').disabled = false;
+                        document.getElementById("status").innerHTML = "Your teacher has not yet created an Office Hours session. Please wait for them to do so, or refresh the page.";
                          console.log("have to be teacher");
                          document.getElementById('open-or-join').disabled = false;
                          return; 
@@ -314,11 +314,8 @@
             }
         </script>
 
-    </div>
-    <div class="col-md-6">
 
-<!-- <div id="tlkio" data-channel="OpenEdu<%= @classroom.id %>" style="width:100%;height:400px;"></div><script async src="http://tlk.io/embed.js" type="text/javascript"></script> -->
-</div>
 
-</div>
+<div id="tlkio" data-channel="OpenEdu<%= @classroom.id %>" style="width:100%;height:400px;"></div><script async src="http://tlk.io/embed.js" type="text/javascript"></script>
+
 
