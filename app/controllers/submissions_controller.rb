@@ -4,7 +4,9 @@ class SubmissionsController < ApplicationController
   # GET /submissions
   # GET /submissions.json
   def index
-    @submissions = Submission.all
+    @question = Question.find(params[:question_id])
+    @submissions = @question.submissions
+    
   end
 
   # GET /submissions/1
@@ -14,7 +16,10 @@ class SubmissionsController < ApplicationController
 
   # GET /submissions/new
   def new
-    @submission = Submission.new
+    @question = Question.find(params[:question_id])
+
+
+    @submission = @question.submissions.build
   end
 
   # GET /submissions/1/edit
@@ -24,12 +29,14 @@ class SubmissionsController < ApplicationController
   # POST /submissions
   # POST /submissions.json
   def create
-    @submission = Submission.new(submission_params)
+    @question = Question.find(params[:question_id])
+
+    @submission = @question.submissions.build(submission_params)
 
     respond_to do |format|
       if @submission.save
-        format.html { redirect_to @submission, notice: 'Submission was successfully created.' }
-        format.json { render :show, status: :created, location: @submission }
+        format.html { redirect_to classroom_assignment_questions_path(@question.assignment.classroom, @question.assignment), notice: 'Your answer was submitted.' }
+        format.json { render :show, status: :created, location: classroom_question_path(@question) }
       else
         format.html { render :new }
         format.json { render json: @submission.errors, status: :unprocessable_entity }
@@ -40,9 +47,10 @@ class SubmissionsController < ApplicationController
   # PATCH/PUT /submissions/1
   # PATCH/PUT /submissions/1.json
   def update
+    #TODO: Doesnt work
     respond_to do |format|
       if @submission.update(submission_params)
-        format.html { redirect_to @submission, notice: 'Submission was successfully updated.' }
+        format.html { redirect_to @submission, notice: 'submission was successfully updated.' }
         format.json { render :show, status: :ok, location: @submission }
       else
         format.html { render :edit }
@@ -56,7 +64,7 @@ class SubmissionsController < ApplicationController
   def destroy
     @submission.destroy
     respond_to do |format|
-      format.html { redirect_to submissions_url, notice: 'Submission was successfully destroyed.' }
+      format.html { redirect_to submissions_url, notice: 'submission was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -69,6 +77,6 @@ class SubmissionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def submission_params
-      params.require(:submission).permit(:student_id, :question_id, :answer)
+      params.require(:submission).permit(:student_id, :answer)
     end
 end

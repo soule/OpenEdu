@@ -1,13 +1,13 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Questions</h1>
-
-<table>
+<%= link_to 'Back to assignment', classroom_assignment_path(@assignment.classroom, @assignment)%>
+<br><br>
+<table class="table">
   <thead>
     <tr>
       <th>Description</th>
-      <th>Answer</th>
-      <th colspan="3"></th>
+
+      <th><%= teacher_signed_in? ? "Correct Answer" : "Your Answer" %></th>
+    
     </tr>
   </thead>
 
@@ -15,14 +15,20 @@
     <% @questions.each do |question| %>
       <tr>
         <td><%= question.description %></td>
+        <td>
         <% if teacher_signed_in? %>
-          <td><%= question.correct_answer %></td>
-        <% else %>
-          <%# if Submissions.find(question: question, student_id: current_student) %>
+          <%= question.correct_answer %>
+        <% elsif %>
+          <% if question.current_student_submission(current_student).nil? %>
+            <%= render 'submissions/form', submission: question.submissions.build %>
+          <% else %>
+            <%= question.current_student_submission(current_student).answer %>
+          <% end %>
         <% end %>
-        <td><%#= link_to 'Show', classroom_assignment_question_path(question) %></td>
+      </td>
+        <!-- <td><%#= link_to 'Show', classroom_assignment_question_path(question) %></td>
         <td><%#= link_to 'Edit', edit_question_path(question) %></td>
-        <td><%#= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%#= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
       </tr>
     <% end %>
   </tbody>
@@ -30,4 +36,5 @@
 
 <br>
 
-<%= link_to 'New Question', new_classroom_assignment_question_path %>
+<%= link_to 'New Question', new_classroom_assignment_question_path, class: 'btn btn-primary' %> 
+

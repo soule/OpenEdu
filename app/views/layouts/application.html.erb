@@ -10,7 +10,8 @@
 
   <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">OpenEDU</a>
+  <%= link_to "OpenEDU", root_path, class: "navbar-brand" %>
+  
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -19,7 +20,7 @@
     <ul class="navbar-nav mr-auto">
       <% if (teacher_signed_in? || student_signed_in?) %>
       <li class="nav-item">
-        <a class="nav-link" href="#">Classrooms</a>
+        <%= link_to "Home", root_path, class: "nav-link" %>
       </li>
         <li class="nav-item">
           <%= link_to "Sign out", teacher_signed_in? ? destroy_teacher_session_path : destroy_student_session_path, class: "nav-link", method: :delete %>

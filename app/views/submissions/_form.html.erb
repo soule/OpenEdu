@@ -1,32 +1,12 @@
-<%= form_with(model: submission, local: true) do |form| %>
-  <% if submission.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(submission.errors.count, "error") %> prohibited this submission from being saved:</h2>
-
-      <ul>
-      <% submission.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
+<%= form_for([submission.question.assignment.classroom, submission.question.assignment, submission.question, submission]) do |form| %>
+	<%= form.hidden_field :student_id, :value => current_student.id %>
   <div class="field">
-    <%= form.label :student_id %>
-    <%= form.text_field :student_id, id: :submission_student_id %>
-  </div>
 
-  <div class="field">
-    <%= form.label :question_id %>
-    <%= form.text_field :question_id, id: :submission_question_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :answer %>
-    <%= form.text_field :answer, id: :submission_answer %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+     A <%= form.radio_button :answer, "A" %>
+    B <%= form.radio_button :answer, "B" %>
+    C <%= form.radio_button :answer, "C" %>
+    D <%= form.radio_button :answer, "D" %>
+  
+    <%= form.submit "Submit", class: "btn btn-sm" %>
   </div>
 <% end %>

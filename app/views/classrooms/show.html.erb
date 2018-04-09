@@ -1,21 +1,17 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @classroom.name %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @classroom.description %>
-</p>
+<h1><%= @classroom.name %></h1>
 
 <p>
   <strong>Teacher:</strong>
   <%= @classroom.teacher.full_name %>
 </p>
 
-<%= link_to "Office Hours room", classroom_officehours_path(@classroom) %>
+<p>
+	<strong>Info:</strong>
+  <%= @classroom.description %>
+</p>
+
 
 <% if (teacher_signed_in? || student_signed_in?) %>
 	<%= render "assignments/index", assignments: @assignments%>
@@ -25,7 +21,10 @@
 <%= link_to 'New Assignment', new_classroom_assignment_path(classroom_id: @classroom) %>
 <br>
 
-<%= link_to 'Edit classroom', edit_classroom_path(@classroom) %>
-<% end %>
+<%#= link_to 'Edit classroom', edit_classroom_path(@classroom) %>
 
+
+<% end %>
      
+<%= link_to "Office Hours", classroom_officehours_path(@classroom),
+		class: 'btn btn-primary' %>

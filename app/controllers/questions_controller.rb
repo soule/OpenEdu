@@ -6,6 +6,7 @@ class QuestionsController < ApplicationController
   def index
     @assignment = Assignment.find(params[:assignment_id])
     @questions = @assignment.questions
+    
   end
 
   # GET /questions/1
